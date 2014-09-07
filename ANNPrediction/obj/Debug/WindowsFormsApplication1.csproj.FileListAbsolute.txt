@@ -1,0 +1,2 @@
+F:\Cao hoc\Luan van\ProjectANN\long mdc\LongMDC\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+F:\Cao hoc\Luan van\ProjectANN\long mdc\LongMDC\WindowsFormsApplication1\bin\Debug\ANNPrediction.exe.config
