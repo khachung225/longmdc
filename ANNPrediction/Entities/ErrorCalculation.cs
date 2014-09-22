@@ -1,6 +1,7 @@
 ﻿// ciumac.sergiu@gmail.com
 
 using System;
+using System.Collections.Generic;
 using Encog.ML.Data;
 
 namespace ANNPrediction.Entities
@@ -61,6 +62,15 @@ namespace ANNPrediction.Entities
             _setSize += ideal.Count;
         }
 
+        public void UpdateError(List<PredictionResults> results)
+        {
+            foreach (var result in results)
+            {
+                double delta = result.PredictedValue - result.ActualValue;
+                _globalError += delta * delta;
+            }
+            _setSize += results.Count;
+        }
     }
     
 

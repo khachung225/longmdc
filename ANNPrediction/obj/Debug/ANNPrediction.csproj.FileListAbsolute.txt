@@ -6,3 +6,20 @@ F:\Cao hoc\Luan van\ProjectANN\long mdc\LongMDC\ANNPrediction\obj\Debug\Financia
 F:\Cao hoc\Luan van\ProjectANN\long mdc\LongMDC\ANNPrediction\obj\Debug\ANNPrediction.Properties.Resources.resources
 F:\Cao hoc\Luan van\ProjectANN\long mdc\LongMDC\ANNPrediction\obj\Debug\ANNPrediction.csproj.GenerateResource.Cache
 F:\Cao hoc\Luan van\ProjectANN\long mdc\LongMDC\ANNPrediction\obj\Debug\ANNPrediction.csproj.ResolveComReference.cache
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\ANNPrediction.exe.config
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\ANNPrediction.exe
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\ANNPrediction.pdb
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\BaseEntity.dll
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\encog-core-cs.dll
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\fastjson.dll
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\ZedGraph.dll
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\BaseEntity.pdb
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\encog-core-cs.pdb
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\bin\Debug\encog-core-cs.xml
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\ANNPrediction.csprojResolveAssemblyReference.cache
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\ANNPrediction.csproj.ResolveComReference.cache
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\WindowsFormsApplication1.frmPrediction.resources
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\ANNPrediction.Properties.Resources.resources
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\ANNPrediction.csproj.GenerateResource.Cache
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\ANNPrediction.exe
+F:\Cao hoc\Luan van\ProjectANN\longmdc\ANNPrediction\obj\Debug\ANNPrediction.pdb

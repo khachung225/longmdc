@@ -7,7 +7,7 @@ using BaseEntity.Utils;
 
 namespace ANNPrediction.Utils
 {
-   public class PredictorManager
+   public class PredictorManager:IDisposable
     {
        private int _inputSize;
        private int _dataSize;
@@ -203,6 +203,29 @@ namespace ANNPrediction.Utils
            //output[3] = sample.VolumeCommo;
 
        }
-       
+
+       public void Dispose()
+       {
+           if (_dictionaryTest.Count > 0)
+           {
+               _dictionaryTest.Clear();
+               _dictionaryTest = null;
+           }
+           if (_dicMaxValue.Count > 0)
+           {
+               _dicMaxValue.Clear();
+               _dicMaxValue = null;
+           }
+           if (_dicMinValue.Count > 0)
+           {
+               _dicMinValue.Clear();
+               _dicMinValue = null;
+           }
+           if (_dictionary.Count > 0)
+           {
+               _dictionary.Clear();
+               _dictionary = null;
+           }
+       }
     }
 }

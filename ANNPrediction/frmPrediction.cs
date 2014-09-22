@@ -6,10 +6,12 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ANNPrediction.Entities;
+using ANNPrediction.Properties;
 using ANNPrediction.Utils;
 using BaseEntity.Utils;
 using Microsoft.Office.Interop.Excel;
@@ -157,6 +159,7 @@ namespace WindowsFormsApplication1
             }
         } 
         #endregion
+
         private int GetIntValue(decimal value)
         {
             try
@@ -166,6 +169,7 @@ namespace WindowsFormsApplication1
             catch (Exception){}
             return 0;
         }
+
         #region Action Trainning
 
         /// <summary>
@@ -241,7 +245,8 @@ namespace WindowsFormsApplication1
                 txtInputCount.Enabled = false;
                 txtDataTrainning.Enabled = false;
                 txtDataTest.Enabled = false;
-
+                button2.Enabled = false;
+                button1.Enabled = false;
                 LoadDataFile(txtDataTrainning.Text, txtDataTest.Text);
                 //cap nha lai so dau vao
                 txtInputCount.Text = _predictor.InputCount.ToString();
@@ -249,25 +254,27 @@ namespace WindowsFormsApplication1
                 TrainingStatus callback = TrainingCallback;
                 _predictor.TrainNetworkAsync(callback);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void _btnStop_Click(object sender, EventArgs e)
         {
-            groupBox1.Enabled = true;
-            txtInputCount.Enabled = true;
-            txtDataTrainning.Enabled = true;
-            txtDataTest.Enabled = true;
             _predictor.AbortTraining();
         }
 
+        //export mang
         private void _btnExport_Click(object sender, EventArgs e)
         {
+            
+        }
+        //inport mang
+        private void button3_Click(object sender, EventArgs e)
+        {
 
-        } 
+        }
         #endregion
 
         private void _nudHiddenUnits_ValueChanged(object sender, EventArgs e)
@@ -359,8 +366,11 @@ namespace WindowsFormsApplication1
                                                    item.PredictedValue.ToString("F6", CultureInfo.InvariantCulture),
                                                    item.Error.ToString("F6", CultureInfo.InvariantCulture));
                 }
-
+                //ve bieu do
                 DrawGraph(DoThi_GiaiTri, results);
+                //ve bieu do tuong quan.
+
+                textBox1.Text = _predictor.CalculateRMS(results).ToString("F6", CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
@@ -398,6 +408,36 @@ namespace WindowsFormsApplication1
 
         }
 
+        private void GraphTQInit(ZedGraphControl DoThi)
+        {
+            GraphPane myPane1 = DoThi.GraphPane; // Khai báo sửa dụng Graph loại GraphPane;
+
+            myPane1.Title.Text = "Đồ thị tương quan";
+            myPane1.XAxis.Title.Text = "giá trị";
+            myPane1.YAxis.Title.Text = "Giá trị";
+            // Định nghĩa list để vẽ đồ thị. Để các bạn hiểu rõ cơ chế làm việc ở đây khai báo 2 list điểm <=> 2 đường đồ thị
+            RollingPointPairList list6_1 = new RollingPointPairList(1000);
+            RollingPointPairList list6_2 = new RollingPointPairList(1000);
+            // dòng dưới là định nghĩa curve để vẽ.
+            myPane1.AddCurve("Đường chuẩn", list6_1, Color.Blue, SymbolType.Diamond);
+            myPane1.AddCurve("Đường tương quan", list6_2, Color.Chocolate, SymbolType.Star);
+
+            // Định hiện thị cho trục thời gian (Trục X)
+            //myPane1.XAxis.Scale.Min = 0;
+            //myPane1.XAxis.Scale.Max = 10;
+            //myPane1.XAxis.Scale.MinorStep = 1;
+            //myPane1.XAxis.Scale.MajorStep = 1;
+            myPane1.XAxis.Type = AxisType.Log;
+            //myPane1.XAxis.Scale.Min = new XDate(_predictFrom);  // We want to use time from now
+            //myPane1.XAxis.Scale.Max = new XDate(_predictTo);  // to 5 minutes per default
+            //myPane1.XAxis.Scale.MinorUnit = DateUnit.Day;         // set the minimum x unit to time/seconds
+            //myPane1.XAxis.Scale.MajorUnit = DateUnit.Day;         // set the maximum x unit to time/minutes
+            //myPane1.XAxis.Scale.Format = "MM/dd/yyyy";
+            // Gọi hàm xác định cỡ trục
+            myPane1.AxisChange();
+
+        }
+
         private void DrawGraph(ZedGraphControl DoThi, List<PredictionResults> results)
         {
             //ve gia tri
@@ -416,8 +456,8 @@ namespace WindowsFormsApplication1
             int i = 0;
             foreach (var item in results)
             {
-                list21.Add(i, item.ActualValue);
-                list22.Add(i, item.PredictedValue);
+                list21.Add(i, item.ActualValue *(-1));
+                list22.Add(i, item.PredictedValue * (-1));
                 // đoạn chương trình thực hiện vẽ đồ thị
                 Scale xScale = DoThi.GraphPane.XAxis.Scale;
                 i++;
@@ -481,5 +521,26 @@ namespace WindowsFormsApplication1
                
             }
         }
+
+        //học lại.
+        private void button4_Click(object sender, EventArgs e)
+        {
+            groupBox1.Enabled = true;
+            txtInputCount.Enabled = true;
+            txtDataTrainning.Enabled = true;
+            txtDataTest.Enabled = true;
+            button2.Enabled = true;
+            button1.Enabled = true;
+
+            //clean dl mạng
+            if (_predictor != null)
+            {
+                _predictor.Dispose();
+                _predictor = null;
+            }
+            _dgvTrainingResults.Rows.Clear();
+        }
+
+       
     }
 }
