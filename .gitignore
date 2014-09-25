@@ -1,2 +1,11 @@
 /BaseEntity/obj/x86/Debug
 /BaseEntity/obj/Debug
+/ANNPrediction/obj/Release
+/ANNPrediction/obj/Debug
+/ANNPrediction/bin/Release/ANNPrediction.vshost.exe
+/ANNPrediction/bin/Release/ANNPrediction.vshost.exe.config
+/ANNPrediction/bin/Release/ANNPrediction.vshost.exe.manifest
+/ANNPrediction/bin/Debug/ANNPrediction.pdb
+/ANNPrediction/bin/Debug/ANNPrediction.vshost.exe.manifest
+/BaseEntity/obj/Release/*.cache
+/*.suo
