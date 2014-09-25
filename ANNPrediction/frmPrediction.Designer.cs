@@ -65,7 +65,19 @@ namespace WindowsFormsApplication1
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.DoThi_GiaiTri = new ZedGraph.ZedGraphControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label17 = new System.Windows.Forms.Label();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnDocDL = new System.Windows.Forms.Button();
             this.nudHiddenLayers2 = new System.Windows.Forms.NumericUpDown();
@@ -89,6 +101,14 @@ namespace WindowsFormsApplication1
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._nudHiddenUnits)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -98,6 +118,7 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this._dgvPredictionResults)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers4)).BeginInit();
@@ -106,6 +127,8 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers8)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -204,7 +227,7 @@ namespace WindowsFormsApplication1
             this.txtDataTest.Name = "txtDataTest";
             this.txtDataTest.Size = new System.Drawing.Size(659, 20);
             this.txtDataTest.TabIndex = 0;
-            this.txtDataTest.Text = "DataTranning.csv";
+            this.txtDataTest.Text = "DataTranning09.csv";
             this.txtDataTest.DoubleClick += new System.EventHandler(this.textBox4_DoubleClick);
             // 
             // label4
@@ -234,6 +257,7 @@ namespace WindowsFormsApplication1
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Location = new System.Drawing.Point(212, 54);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -433,11 +457,11 @@ namespace WindowsFormsApplication1
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(231, 358);
+            this.label16.Location = new System.Drawing.Point(225, 358);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(51, 13);
+            this.label16.Size = new System.Drawing.Size(58, 13);
             this.label16.TabIndex = 1;
-            this.label16.Text = "Lỗi RME:";
+            this.label16.Text = "Lỗi RMSE:";
             // 
             // tabPage3
             // 
@@ -469,6 +493,7 @@ namespace WindowsFormsApplication1
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label17);
             this.tabPage4.Controls.Add(this.zedGraphControl1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
@@ -477,12 +502,23 @@ namespace WindowsFormsApplication1
             this.tabPage4.Text = "BĐ Tương quan";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 363);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(164, 13);
+            this.label17.TabIndex = 1;
+            this.label17.Text = "Hệ số tương quan: 5.r345444678";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
             // zedGraphControl1
             // 
             this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl1.Location = new System.Drawing.Point(7, 6);
+            this.zedGraphControl1.Location = new System.Drawing.Point(-4, 0);
             this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
@@ -492,8 +528,110 @@ namespace WindowsFormsApplication1
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(779, 376);
+            this.zedGraphControl1.Size = new System.Drawing.Size(792, 386);
             this.zedGraphControl1.TabIndex = 6;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.groupBox3);
+            this.tabPage5.Controls.Add(this.groupBox2);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(788, 382);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Tổng hợp kết quả";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(40, 132);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(97, 13);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "Độ lệch trung bình:";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(57, 106);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(80, 13);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "Độ lệch chuẩn:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(27, 80);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(110, 13);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "Giá trị lệnh trung bình:";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(36, 54);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(101, 13);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Giá trị lệnh lớn nhất:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(32, 28);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(105, 13);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Giá trị lệnh nhỏ nhất:";
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(143, 129);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
+            this.textBox6.Size = new System.Drawing.Size(169, 20);
+            this.textBox6.TabIndex = 0;
+            this.textBox6.Text = "0.0002";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(143, 104);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(169, 20);
+            this.textBox5.TabIndex = 0;
+            this.textBox5.Text = "0.0002";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(143, 77);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(169, 20);
+            this.textBox4.TabIndex = 0;
+            this.textBox4.Text = "0.0002";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(143, 51);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(169, 20);
+            this.textBox3.TabIndex = 0;
+            this.textBox3.Text = "0.0002";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(143, 25);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(169, 20);
+            this.textBox2.TabIndex = 0;
+            this.textBox2.Text = "0.0002";
             // 
             // label6
             // 
@@ -749,6 +887,94 @@ namespace WindowsFormsApplication1
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.textBox4_DoubleClick);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label26);
+            this.groupBox2.Controls.Add(this.label24);
+            this.groupBox2.Controls.Add(this.label22);
+            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Controls.Add(this.textBox6);
+            this.groupBox2.Controls.Add(this.textBox5);
+            this.groupBox2.Controls.Add(this.textBox4);
+            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Location = new System.Drawing.Point(50, 19);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(329, 165);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Độ lệch";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label23);
+            this.groupBox3.Controls.Add(this.label25);
+            this.groupBox3.Controls.Add(this.label27);
+            this.groupBox3.Controls.Add(this.textBox9);
+            this.groupBox3.Controls.Add(this.textBox10);
+            this.groupBox3.Controls.Add(this.textBox11);
+            this.groupBox3.Location = new System.Drawing.Point(441, 19);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(273, 109);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Lỗi";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(27, 78);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(50, 13);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Lỗi MAE:";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(19, 52);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(58, 13);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Lỗi RMSE:";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(27, 26);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(50, 13);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "Lỗi MSE:";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(83, 19);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.ReadOnly = true;
+            this.textBox9.Size = new System.Drawing.Size(173, 20);
+            this.textBox9.TabIndex = 0;
+            this.textBox9.Text = "0.0002";
+            // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(83, 45);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.ReadOnly = true;
+            this.textBox10.Size = new System.Drawing.Size(173, 20);
+            this.textBox10.TabIndex = 0;
+            this.textBox10.Text = "0.0002";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(83, 71);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(173, 20);
+            this.textBox11.TabIndex = 0;
+            this.textBox11.Text = "0.0002";
+            // 
             // frmPrediction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -780,6 +1006,8 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this._dgvPredictionResults)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers4)).EndInit();
@@ -789,6 +1017,10 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers8)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -861,6 +1093,26 @@ namespace WindowsFormsApplication1
         private Button button4;
         private TextBox textBox1;
         private Label label16;
+        private Label label17;
+        private TabPage tabPage5;
+        private Label label26;
+        private Label label24;
+        private Label label22;
+        private Label label20;
+        private Label label18;
+        private TextBox textBox6;
+        private TextBox textBox5;
+        private TextBox textBox4;
+        private TextBox textBox3;
+        private TextBox textBox2;
+        private GroupBox groupBox3;
+        private Label label23;
+        private Label label25;
+        private Label label27;
+        private TextBox textBox9;
+        private TextBox textBox10;
+        private TextBox textBox11;
+        private GroupBox groupBox2;
     }
 }
 

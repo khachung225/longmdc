@@ -278,10 +278,24 @@ namespace ANNPrediction.Utils
             ErrorCalculation error = new ErrorCalculation();
             error.Reset();
             error.UpdateError(results);
-            return error.CalculateRMS();
+            return error.CalculateRMSE();
         }
-
-
+        public double CalculateMSE(List<PredictionResults> results)
+        {
+            //tính lỗi
+            ErrorCalculation error = new ErrorCalculation();
+            error.Reset();
+            error.UpdateError(results);
+            return error.CalculateMSE();
+        }
+        public double CalculateMAE(List<PredictionResults> results)
+        {
+            //tính lỗi
+            ErrorCalculation error = new ErrorCalculation();
+            error.Reset();
+            error.UpdateError(results);
+            return error.CalculateMAE();
+        }
         public void Dispose()
         {
             if (listErr.Count > 0)

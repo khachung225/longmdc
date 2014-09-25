@@ -32,6 +32,7 @@ namespace WindowsFormsApplication1
         {
             _nudHiddenUnits_ValueChanged(sender, e);
             GraphInit(DoThi_GiaiTri);
+            GraphTQInit(zedGraphControl1);
         }
 
         #region doc xls/
@@ -369,6 +370,27 @@ namespace WindowsFormsApplication1
                 //ve bieu do
                 DrawGraph(DoThi_GiaiTri, results);
                 //ve bieu do tuong quan.
+                DrawGraphTQ(zedGraphControl1, results);
+
+                //tinh he so tuong quan.
+                var corre = new Correlation(); corre.Clean();
+                corre.Add(results);
+                var r = corre.GetCorrelation();
+                label17.Text = string.Format("Hệ số tương quan:{0}", r);
+
+                //tong hop dl
+                var st = new StaticReporting();
+                st.Add(results);
+                textBox2.Text = string.Format("{0}", st.Min);
+                textBox3.Text = string.Format("{0}", st.Max);
+                textBox4.Text = string.Format("{0}", st.GetMVD());
+                textBox5.Text = string.Format("{0}", st.GetSDD());
+                textBox6.Text = string.Format("{0}", st.GetMDD());
+
+                textBox9.Text = string.Format("{0}", _predictor.CalculateMSE(results));
+                textBox10.Text = string.Format("{0}", _predictor.CalculateRMS(results));
+                textBox11.Text = string.Format("{0}", _predictor.CalculateMAE(results));
+
 
                 textBox1.Text = _predictor.CalculateRMS(results).ToString("F6", CultureInfo.InvariantCulture);
             }
@@ -413,28 +435,45 @@ namespace WindowsFormsApplication1
             GraphPane myPane1 = DoThi.GraphPane; // Khai báo sửa dụng Graph loại GraphPane;
 
             myPane1.Title.Text = "Đồ thị tương quan";
-            myPane1.XAxis.Title.Text = "giá trị";
-            myPane1.YAxis.Title.Text = "Giá trị";
+            myPane1.XAxis.Title.Text = "Giá trị thực";
+            myPane1.YAxis.Title.Text = "Giá trị dự đoán";
             // Định nghĩa list để vẽ đồ thị. Để các bạn hiểu rõ cơ chế làm việc ở đây khai báo 2 list điểm <=> 2 đường đồ thị
-            RollingPointPairList list6_1 = new RollingPointPairList(1000);
+            PointPairList list6_1 = new PointPairList();
             RollingPointPairList list6_2 = new RollingPointPairList(1000);
+
+             
             // dòng dưới là định nghĩa curve để vẽ.
-            myPane1.AddCurve("Đường chuẩn", list6_1, Color.Blue, SymbolType.Diamond);
-            myPane1.AddCurve("Đường tương quan", list6_2, Color.Chocolate, SymbolType.Star);
+            var myCurve = myPane1.AddCurve("Tương quan", list6_1, Color.Blue, SymbolType.Circle);
+           myCurve.Symbol.Size = 10;
+           // Set up a red-blue color gradient to be used for the fill 
+           myCurve.Symbol.Fill = new Fill(Color.Blue, Color.Blue);
+           // Turn off the symbol borders 
+           myCurve.Symbol.Border.IsVisible = false;
+           // Instruct ZedGraph to fill the symbols by selecting a color out of the 
+           // red-blue gradient based on the Z value.  A value of 19 or less will be red, 
+           // a value of 34 or more will be blue, and values in between will be a 
+           // linearly apportioned color between red and blue. 
+            myCurve.Symbol.Fill.Type = FillType.GradientByZ;
+           myCurve.Symbol.Fill.RangeMin = 19;
+           myCurve.Symbol.Fill.RangeMax = 34;
+           // Turn off the line, so the curve will by symbols only 
+           myCurve.Line.IsVisible = false; 
+            //myPane1.AddCurve("Đường tương quan", list6_2, Color.Chocolate, SymbolType.Square);
+           // myPane1.AddStick("Đường tương quan", list6_1, Color.Blue);
 
             // Định hiện thị cho trục thời gian (Trục X)
             //myPane1.XAxis.Scale.Min = 0;
             //myPane1.XAxis.Scale.Max = 10;
             //myPane1.XAxis.Scale.MinorStep = 1;
             //myPane1.XAxis.Scale.MajorStep = 1;
-            myPane1.XAxis.Type = AxisType.Log;
+            myPane1.XAxis.Type = AxisType.Ordinal;
             //myPane1.XAxis.Scale.Min = new XDate(_predictFrom);  // We want to use time from now
             //myPane1.XAxis.Scale.Max = new XDate(_predictTo);  // to 5 minutes per default
             //myPane1.XAxis.Scale.MinorUnit = DateUnit.Day;         // set the minimum x unit to time/seconds
             //myPane1.XAxis.Scale.MajorUnit = DateUnit.Day;         // set the maximum x unit to time/minutes
             //myPane1.XAxis.Scale.Format = "MM/dd/yyyy";
             // Gọi hàm xác định cỡ trục
-            myPane1.AxisChange();
+            //myPane1.AxisChange();
 
         }
 
@@ -462,6 +501,36 @@ namespace WindowsFormsApplication1
                 Scale xScale = DoThi.GraphPane.XAxis.Scale;
                 i++;
             }
+            // Vẽ đồ thị
+            DoThi.AxisChange();
+            // Force a redraw
+            DoThi.Invalidate();
+        }
+        private void DrawGraphTQ(ZedGraphControl DoThi, List<PredictionResults> results)
+        {
+            //ve gia tri
+            LineItem curve2_1 = DoThi.GraphPane.CurveList[0] as LineItem;
+            //LineItem curve2_2 = DoThi.GraphPane.CurveList[1] as LineItem;
+
+            //init do thi.
+
+            // Get the PointPairList
+            PointPairList list21 = curve2_1.Points as PointPairList;
+           // IPointListEdit list22 = curve2_2.Points as IPointListEdit;
+           // list21.Clear();
+           // list22.Clear();
+            int i = 0;
+            var listp = new List<PointD>();
+            foreach (var item in results)
+            {
+                list21.Add(item.ActualValue, item.PredictedValue,0);
+                // đoạn chương trình thực hiện vẽ đồ thị
+                Scale xScale = DoThi.GraphPane.XAxis.Scale;
+                i++;
+            }
+           
+
+             DoThi.Invalidate();
             // Vẽ đồ thị
             DoThi.AxisChange();
             // Force a redraw
@@ -541,6 +610,12 @@ namespace WindowsFormsApplication1
             _dgvTrainingResults.Rows.Clear();
         }
 
-       
+        private void tabPage5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
+        
     }
 }

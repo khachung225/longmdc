@@ -16,6 +16,7 @@ namespace ANNPrediction.Entities
         /// </summary>
         private double _globalError;
 
+        private double _globalErrorA;
         /// <summary>
         /// The size of a training set.
         /// </summary>
@@ -25,9 +26,18 @@ namespace ANNPrediction.Entities
         /// Returns the root mean square error for a complete training set.
         /// </summary>
         /// <returns>The current error for the neural network.</returns>
-        public double CalculateRMS()
+        public double CalculateMSE()
         {
-            return Math.Sqrt(_globalError/(_setSize));
+            return _globalError/(_setSize);
+        }
+
+        public double CalculateRMSE()
+        {
+            return Math.Sqrt(_globalError / (_setSize));
+        }
+        public double CalculateMAE()
+        {
+            return _globalErrorA/ (_setSize);
         }
 
         /// <summary>
@@ -67,7 +77,8 @@ namespace ANNPrediction.Entities
             foreach (var result in results)
             {
                 double delta = result.PredictedValue - result.ActualValue;
-                _globalError += delta * delta;
+                _globalError += delta*delta;
+                _globalErrorA += Math.Abs(delta);
             }
             _setSize += results.Count;
         }

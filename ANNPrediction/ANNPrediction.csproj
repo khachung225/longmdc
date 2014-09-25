@@ -75,10 +75,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Correlation.cs" />
     <Compile Include="Entities\ErrorCalculation.cs" />
     <Compile Include="Entities\NetworkConfig.cs" />
     <Compile Include="Entities\PredicData.cs" />
     <Compile Include="Entities\PredictionResults.cs" />
+    <Compile Include="Entities\StaticReporting.cs" />
     <Compile Include="frmPrediction.cs">
       <SubType>Form</SubType>
     </Compile>
