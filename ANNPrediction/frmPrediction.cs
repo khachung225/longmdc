@@ -33,6 +33,7 @@ namespace WindowsFormsApplication1
             _nudHiddenUnits_ValueChanged(sender, e);
             GraphInit(DoThi_GiaiTri);
             GraphTQInit(zedGraphControl1);
+            GraphInitLog(zedGraphControl2);
         }
 
         #region doc xls/
@@ -181,7 +182,6 @@ namespace WindowsFormsApplication1
         private void TrainingCallback(int epoch, double error )
         {
             Invoke(addAction, new object[] { epoch, error, _dgvTrainingResults });
-
         }
 
 
@@ -217,8 +217,15 @@ namespace WindowsFormsApplication1
            
             try
             {
-                maxError = Convert.ToDouble(txtMaxError.Text);
-                maxepoch = Convert.ToInt32(txtMaxRepeat.Text);
+
+                maxError = double.Parse(txtMaxError.Text, CultureInfo.InvariantCulture);
+                if (maxError >= 1)
+                {
+                   var re= MessageBox.Show("Lỗi đạt tới:" + maxError.ToString(CultureInfo.InvariantCulture) + "\r\n Bạn muốn mạng thực hiện học với lỗi tối đa này?", "Chú ý", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if(re == DialogResult.No)
+                        return;
+                }
+                maxepoch = Int32.Parse(txtMaxRepeat.Text, CultureInfo.InvariantCulture);
 
                 inputCount = Convert.ToInt32(txtInputCount.Text);
                 outputCount = Convert.ToInt32(TxtOutputCount.Text);
@@ -250,7 +257,7 @@ namespace WindowsFormsApplication1
                 button1.Enabled = false;
                 LoadDataFile(txtDataTrainning.Text, txtDataTest.Text);
                 //cap nha lai so dau vao
-                txtInputCount.Text = _predictor.InputCount.ToString();
+                txtInputCount.Text = _predictor.InputCount.ToString(CultureInfo.InvariantCulture);
 
                 TrainingStatus callback = TrainingCallback;
                 _predictor.TrainNetworkAsync(callback);
@@ -264,6 +271,7 @@ namespace WindowsFormsApplication1
         private void _btnStop_Click(object sender, EventArgs e)
         {
             _predictor.AbortTraining();
+
         }
 
         //export mang
@@ -361,38 +369,42 @@ namespace WindowsFormsApplication1
                     MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                int k = 1;
                 foreach (var item in results)
                 {
-                    _dgvPredictionResults.Rows.Add(item.ActualValue,
+                    _dgvPredictionResults.Rows.Add(k,item.ActualValue,
                                                    item.PredictedValue.ToString("F6", CultureInfo.InvariantCulture),
                                                    item.Error.ToString("F6", CultureInfo.InvariantCulture));
+                    k++;
                 }
                 //ve bieu do
                 DrawGraph(DoThi_GiaiTri, results);
                 //ve bieu do tuong quan.
                 DrawGraphTQ(zedGraphControl1, results);
+                //list Error.
+                DrawGraphLog(zedGraphControl2, _predictor.ListError);
 
                 //tinh he so tuong quan.
                 var corre = new Correlation(); corre.Clean();
                 corre.Add(results);
                 var r = corre.GetCorrelation();
-                label17.Text = string.Format("Hệ số tương quan:{0}", r);
+                label17.Text = string.Format("Hệ số tương quan:{0}", r.ToString("F5", CultureInfo.InvariantCulture));
 
                 //tong hop dl
                 var st = new StaticReporting();
                 st.Add(results);
-                textBox2.Text = string.Format("{0}", st.Min);
-                textBox3.Text = string.Format("{0}", st.Max);
-                textBox4.Text = string.Format("{0}", st.GetMVD());
-                textBox5.Text = string.Format("{0}", st.GetSDD());
-                textBox6.Text = string.Format("{0}", st.GetMDD());
+                textBox2.Text = string.Format("{0}", st.Min.ToString("F3", CultureInfo.InvariantCulture));
+                textBox3.Text = string.Format("{0}", st.Max.ToString("F3", CultureInfo.InvariantCulture));
+                textBox4.Text = string.Format("{0}", st.GetMVD().ToString("F3", CultureInfo.InvariantCulture));
+                textBox5.Text = string.Format("{0}", st.GetSDD().ToString("F3", CultureInfo.InvariantCulture));
+                textBox6.Text = string.Format("{0}", st.GetMDD().ToString("F3", CultureInfo.InvariantCulture));
 
-                textBox9.Text = string.Format("{0}", _predictor.CalculateMSE(results));
-                textBox10.Text = string.Format("{0}", _predictor.CalculateRMS(results));
-                textBox11.Text = string.Format("{0}", _predictor.CalculateMAE(results));
+                textBox9.Text = string.Format("{0}", _predictor.CalculateMSE(results).ToString("F3", CultureInfo.InvariantCulture));
+                textBox10.Text = string.Format("{0}", _predictor.CalculateRMS(results).ToString("F3", CultureInfo.InvariantCulture));
+                textBox11.Text = string.Format("{0}", _predictor.CalculateMAE(results).ToString("F3", CultureInfo.InvariantCulture));
 
 
-                textBox1.Text = _predictor.CalculateRMS(results).ToString("F6", CultureInfo.InvariantCulture);
+               // textBox1.Text = _predictor.CalculateRMS(results).ToString("F6", CultureInfo.InvariantCulture);
             }
             catch (Exception)
             {
@@ -404,15 +416,47 @@ namespace WindowsFormsApplication1
         {
             GraphPane myPane1 = DoThi.GraphPane; // Khai báo sửa dụng Graph loại GraphPane;
 
-            myPane1.Title.Text = "Đồ thị dự đoán";
-            myPane1.XAxis.Title.Text = "Ngày dự đoán";
-            myPane1.YAxis.Title.Text = "Giá trị dự đoán";
+            myPane1.Title.Text = "Đồ thị dự báo lún";
+            myPane1.XAxis.Title.Text = "Khoảng cách";
+            myPane1.YAxis.Title.Text = "Độ lún";
             // Định nghĩa list để vẽ đồ thị. Để các bạn hiểu rõ cơ chế làm việc ở đây khai báo 2 list điểm <=> 2 đường đồ thị
             RollingPointPairList list6_1 = new RollingPointPairList(1000);
             RollingPointPairList list6_2 = new RollingPointPairList(1000);
             // dòng dưới là định nghĩa curve để vẽ.
             myPane1.AddCurve("Giá trị thực đo", list6_1, Color.Red, SymbolType.Diamond);
             myPane1.AddCurve("Giá trị tính toán bởi mạng", list6_2, Color.Blue, SymbolType.Star);
+
+            // Định hiện thị cho trục thời gian (Trục X)
+            //myPane1.XAxis.Scale.Min = 0;
+            //myPane1.XAxis.Scale.Max = 10;
+            //myPane1.XAxis.Scale.MinorStep = 1;
+            //myPane1.XAxis.Scale.MajorStep = 1;
+            myPane1.XAxis.Type = AxisType.Log;
+            //myPane1.XAxis.Scale.Min = new XDate(_predictFrom);  // We want to use time from now
+            //myPane1.XAxis.Scale.Max = new XDate(_predictTo);  // to 5 minutes per default
+            //myPane1.XAxis.Scale.MinorUnit = DateUnit.Day;         // set the minimum x unit to time/seconds
+            //myPane1.XAxis.Scale.MajorUnit = DateUnit.Day;         // set the maximum x unit to time/minutes
+            //myPane1.XAxis.Scale.Format = "MM/dd/yyyy";
+            // Gọi hàm xác định cỡ trục
+            myPane1.AxisChange();
+
+        }
+
+        private void GraphInitLog(ZedGraphControl DoThi)
+        {
+            GraphPane myPane1 = DoThi.GraphPane; // Khai báo sửa dụng Graph loại GraphPane;
+
+            var cout = Convert.ToInt32(txtMaxRepeat.Text);
+            if (cout < 1000) cout = 1000;
+            myPane1.Title.Text = "Đồ thị lỗi trong quá trình học";
+            myPane1.XAxis.Title.Text = "Số lần học";
+            myPane1.YAxis.Title.Text = "Lỗi đạt được";
+            // Định nghĩa list để vẽ đồ thị. Để các bạn hiểu rõ cơ chế làm việc ở đây khai báo 2 list điểm <=> 2 đường đồ thị
+            RollingPointPairList list6_1 = new RollingPointPairList(cout);
+           
+            // dòng dưới là định nghĩa curve để vẽ.
+            myPane1.AddCurve("Giá trị lỗi", list6_1, Color.Red, SymbolType.None);
+ 
 
             // Định hiện thị cho trục thời gian (Trục X)
             //myPane1.XAxis.Scale.Min = 0;
@@ -438,12 +482,12 @@ namespace WindowsFormsApplication1
             myPane1.XAxis.Title.Text = "Giá trị thực";
             myPane1.YAxis.Title.Text = "Giá trị dự đoán";
             // Định nghĩa list để vẽ đồ thị. Để các bạn hiểu rõ cơ chế làm việc ở đây khai báo 2 list điểm <=> 2 đường đồ thị
-            PointPairList list6_1 = new PointPairList();
+            //PointPairList list6_1 = new PointPairList();
             RollingPointPairList list6_2 = new RollingPointPairList(1000);
 
              
             // dòng dưới là định nghĩa curve để vẽ.
-            var myCurve = myPane1.AddCurve("Tương quan", list6_1, Color.Blue, SymbolType.Circle);
+            var myCurve = myPane1.AddCurve("Tương quan", list6_2, Color.Blue, SymbolType.Circle);
            myCurve.Symbol.Size = 10;
            // Set up a red-blue color gradient to be used for the fill 
            myCurve.Symbol.Fill = new Fill(Color.Blue, Color.Blue);
@@ -453,27 +497,35 @@ namespace WindowsFormsApplication1
            // red-blue gradient based on the Z value.  A value of 19 or less will be red, 
            // a value of 34 or more will be blue, and values in between will be a 
            // linearly apportioned color between red and blue. 
-            myCurve.Symbol.Fill.Type = FillType.GradientByZ;
-           myCurve.Symbol.Fill.RangeMin = 19;
-           myCurve.Symbol.Fill.RangeMax = 34;
+           // myCurve.Symbol.Fill.Type = FillType.GradientByZ;
+           //myCurve.Symbol.Fill.RangeMin = 1;
+           //myCurve.Symbol.Fill.RangeMax = 1;
            // Turn off the line, so the curve will by symbols only 
            myCurve.Line.IsVisible = false; 
             //myPane1.AddCurve("Đường tương quan", list6_2, Color.Chocolate, SymbolType.Square);
            // myPane1.AddStick("Đường tương quan", list6_1, Color.Blue);
 
             // Định hiện thị cho trục thời gian (Trục X)
-            //myPane1.XAxis.Scale.Min = 0;
-            //myPane1.XAxis.Scale.Max = 10;
-            //myPane1.XAxis.Scale.MinorStep = 1;
-            //myPane1.XAxis.Scale.MajorStep = 1;
-            myPane1.XAxis.Type = AxisType.Ordinal;
+           //myPane1.XAxis.Scale.Min = 0;
+           //myPane1.XAxis.Scale.Max = 10000;
+           //myPane1.XAxis.Scale.MinorStep = 1000;
+           //myPane1.XAxis.Scale.MajorStep = 1000;
+
+          
+
+           // Fill the background of the chart rect and pane
+           myPane1.Chart.Fill = new Fill(Color.White, Color.White, 45.0f);
+           myPane1.Fill = new Fill(Color.White, Color.White, 45.0f);
+
+            //myPane1.XAxis.Type = AxisType.Log;
             //myPane1.XAxis.Scale.Min = new XDate(_predictFrom);  // We want to use time from now
             //myPane1.XAxis.Scale.Max = new XDate(_predictTo);  // to 5 minutes per default
             //myPane1.XAxis.Scale.MinorUnit = DateUnit.Day;         // set the minimum x unit to time/seconds
             //myPane1.XAxis.Scale.MajorUnit = DateUnit.Day;         // set the maximum x unit to time/minutes
             //myPane1.XAxis.Scale.Format = "MM/dd/yyyy";
+
             // Gọi hàm xác định cỡ trục
-            //myPane1.AxisChange();
+            myPane1.AxisChange();
 
         }
 
@@ -506,6 +558,37 @@ namespace WindowsFormsApplication1
             // Force a redraw
             DoThi.Invalidate();
         }
+
+        private void DrawGraphLog(ZedGraphControl DoThi, List<MyError> results)
+        {
+            //ve gia tri
+            LineItem curve2_1 = DoThi.GraphPane.CurveList[0] as LineItem;
+         
+
+            //init do thi.
+
+            // Get the PointPairList
+            IPointListEdit list21 = curve2_1.Points as IPointListEdit;
+             
+            list21.Clear();
+             
+            DoThi.AxisChange();
+            DoThi.Invalidate();
+            
+            foreach (var item in results)
+            {
+                list21.Add(item.index, item.value);
+                
+                // đoạn chương trình thực hiện vẽ đồ thị
+                Scale xScale = DoThi.GraphPane.XAxis.Scale;
+               
+            }
+            // Vẽ đồ thị
+            DoThi.AxisChange();
+            // Force a redraw
+            DoThi.Invalidate();
+        }
+
         private void DrawGraphTQ(ZedGraphControl DoThi, List<PredictionResults> results)
         {
             //ve gia tri
@@ -515,15 +598,15 @@ namespace WindowsFormsApplication1
             //init do thi.
 
             // Get the PointPairList
-            PointPairList list21 = curve2_1.Points as PointPairList;
+            IPointListEdit list21 = curve2_1.Points as IPointListEdit;
            // IPointListEdit list22 = curve2_2.Points as IPointListEdit;
-           // list21.Clear();
+            list21.Clear();
            // list22.Clear();
             int i = 0;
-            var listp = new List<PointD>();
+            
             foreach (var item in results)
             {
-                list21.Add(item.ActualValue, item.PredictedValue,0);
+                list21.Add(item.ActualValue, item.PredictedValue);
                 // đoạn chương trình thực hiện vẽ đồ thị
                 Scale xScale = DoThi.GraphPane.XAxis.Scale;
                 i++;
@@ -534,7 +617,7 @@ namespace WindowsFormsApplication1
             // Vẽ đồ thị
             DoThi.AxisChange();
             // Force a redraw
-            DoThi.Invalidate();
+           // DoThi.Invalidate();
         }
 
         private void _btnSaveResults_Click(object sender, EventArgs e)
@@ -594,6 +677,7 @@ namespace WindowsFormsApplication1
         //học lại.
         private void button4_Click(object sender, EventArgs e)
         {
+            //if (_predictor!=null && _predictor.IsTrainning()) return;
             groupBox1.Enabled = true;
             txtInputCount.Enabled = true;
             txtDataTrainning.Enabled = true;
@@ -607,7 +691,9 @@ namespace WindowsFormsApplication1
                 _predictor.Dispose();
                 _predictor = null;
             }
+
             _dgvTrainingResults.Rows.Clear();
+            _dgvPredictionResults.Rows.Clear();
         }
 
         private void tabPage5_Click(object sender, EventArgs e)

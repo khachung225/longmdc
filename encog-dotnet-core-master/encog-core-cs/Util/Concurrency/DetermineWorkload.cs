@@ -82,9 +82,9 @@ namespace Encog.Util.Concurrency
                 long recordCount = _workloadSize;
                 long workPerThread = recordCount/num;
 
-                if (workPerThread < 100)
+                if (workPerThread < 40)
                 {
-                    num = Math.Max(1, (int) (recordCount/100));
+                    num = Math.Max(1, (int) (recordCount/40));
                 }
 
                 _threadCount = num;

@@ -353,14 +353,14 @@ namespace Encog.Neural.Networks
         ///
         public void Reset()
         {
-            //if (LayerCount < 3)
+            if (LayerCount < 3)
             {
                 (new RangeRandomizer(-1, 1)).Randomize(this);
             }
-            //else
-            //{
-            //    (new NguyenWidrowRandomizer()).Randomize(this);
-            //}
+            else
+            {
+                (new NguyenWidrowRandomizer()).Randomize(this);
+            }
         }
 
         /// <summary>

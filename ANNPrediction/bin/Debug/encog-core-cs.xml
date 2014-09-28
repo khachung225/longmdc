@@ -7838,8 +7838,7 @@
         </member>
         <member name="P:Encog.encog_core_cs.classes">
              <summary>
-               Looks up a localized string similar to Encog.ML.Bayesian.BayesianNetwork
-            Encog.Bot.BotError
+               Looks up a localized string similar to Encog.Bot.BotError
             Encog.Bot.BotUtil
             Encog.Bot.Browse.Address
             Encog.Bot.Browse.BrowseError
@@ -7854,7 +7853,8 @@
             Encog.Bot.Browse.Range.Form
             Encog.Bot.Browse.Range.FormElement
             Encog.Bot.Browse.Range.Input
-            En [rest of string was truncated]&quot;;.
+            Encog.Bot.Browse.Range.Link
+            Encog.Bo [rest of string was truncated]&quot;;.
              </summary>
         </member>
         <member name="T:Encog.EncogFramework">

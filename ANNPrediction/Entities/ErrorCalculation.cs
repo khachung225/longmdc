@@ -76,7 +76,10 @@ namespace ANNPrediction.Entities
         {
             foreach (var result in results)
             {
-                double delta = result.PredictedValue - result.ActualValue;
+                var a = result.PredictedValue/1000;
+                var bn = result.ActualValue / 1000;
+                //double delta = result.PredictedValue - result.ActualValue;
+                double delta = a - bn;
                 _globalError += delta*delta;
                 _globalErrorA += Math.Abs(delta);
             }

@@ -120,6 +120,18 @@ namespace ANNPrediction.Utils
             action.BeginInvoke(status, action.EndInvoke, action);
         }
 
+        public List<MyError> ListError { get { return listErr; } }
+        public bool IsTrainning()
+        {
+            if (_trainThread != null)
+            {
+                if (_trainThread.ThreadState == ThreadState.Stopped)
+                    return false;
+               
+                    return true;
+            }
+            return false;
+        }
         
         /// <summary>
         // Train network
@@ -230,7 +242,7 @@ namespace ANNPrediction.Utils
         public void AbortTraining()
         {
             if (_trainThread != null) _trainThread.Abort();
-
+             
         }
 
         /// <summary>
