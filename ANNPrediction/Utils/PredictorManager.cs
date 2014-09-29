@@ -140,6 +140,7 @@ namespace ANNPrediction.Utils
            return _dicMinValue[index];
        }
 
+       public int OneHundred = 100000;
        /// <summary>
        /// Normalize input data
        /// </summary>
@@ -150,13 +151,8 @@ namespace ANNPrediction.Utils
                for (int index = 0; index < _dataSize; index++)
                {
                    var value = t.Value.GetData(index);
-                   if (((value - _dicMinValue[index]) == 0) ||(_dicMaxValue[index] - _dicMinValue[index] == 0))
-                       t.Value.SetData(0, index);
-                   else 
-                   {
-                       value = (value - _dicMinValue[index])/(_dicMaxValue[index] - _dicMinValue[index]);
-                       t.Value.SetData(value, index);
-                   }
+
+                   t.Value.SetData(value / OneHundred, index);
                }
            }
            foreach (var t in _dictionaryTest)
@@ -164,13 +160,7 @@ namespace ANNPrediction.Utils
                for (int index = 0; index < _dataSize; index++)
                {
                    var value = t.Value.GetData(index);
-                   if ((value - _dicMinValue[index]) == 0)
-                       t.Value.SetData(0, index);
-                   else
-                   {
-                       value = (value - _dicMinValue[index]) / (_dicMaxValue[index] - _dicMinValue[index]);
-                       t.Value.SetData(value, index);
-                   }
+                   t.Value.SetData(value / OneHundred, index);
                }
            }
        }

@@ -267,12 +267,8 @@ namespace ANNPrediction.Utils
 
                 var data = new BasicNeuralData(present);
                 var predict = _network.Compute(data);
-                result.ActualValue = actualOutput[0]*
-                                     (_manager.GetMax(_manager.InputSize) - _manager.GetMin(_manager.InputSize)) +
-                                     _manager.GetMin(_manager.InputSize);
-                result.PredictedValue = predict[0]*
-                                        (_manager.GetMax(_manager.InputSize) - _manager.GetMin(_manager.InputSize)) +
-                                        _manager.GetMin(_manager.InputSize);
+                result.ActualValue = actualOutput[0]* _manager.OneHundred;
+                result.PredictedValue = predict[0] * _manager.OneHundred; ;
 
 
                 result.Error = result.PredictedValue - result.ActualValue; //
