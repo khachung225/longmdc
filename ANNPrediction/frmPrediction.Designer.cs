@@ -45,12 +45,13 @@ namespace WindowsFormsApplication1
             this.label5 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button4 = new System.Windows.Forms.Button();
             this._btnStop = new System.Windows.Forms.Button();
             this._btnStartTraining = new System.Windows.Forms.Button();
             this._dgvTrainingResults = new System.Windows.Forms.DataGridView();
-            this.Epoch = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Error = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._btnExport = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
@@ -64,7 +65,6 @@ namespace WindowsFormsApplication1
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.DoThi_GiaiTri = new ZedGraph.ZedGraphControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label17 = new System.Windows.Forms.Label();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -85,6 +85,8 @@ namespace WindowsFormsApplication1
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
             this.label6 = new System.Windows.Forms.Label();
             this.btnDocDL = new System.Windows.Forms.Button();
             this.nudHiddenLayers2 = new System.Windows.Forms.NumericUpDown();
@@ -108,8 +110,12 @@ namespace WindowsFormsApplication1
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label16 = new System.Windows.Forms.Label();
+            this.lblsolanlap = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.lblloidattoi = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._nudHiddenUnits)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -122,6 +128,7 @@ namespace WindowsFormsApplication1
             this.tabPage5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers4)).BeginInit();
@@ -130,13 +137,13 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers8)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.tabPage6.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 43);
+            this.label2.Location = new System.Drawing.Point(11, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 1;
@@ -145,7 +152,7 @@ namespace WindowsFormsApplication1
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 17);
+            this.label1.Location = new System.Drawing.Point(11, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 1;
@@ -205,7 +212,7 @@ namespace WindowsFormsApplication1
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(38, 75);
+            this.label3.Location = new System.Drawing.Point(11, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 1;
@@ -215,9 +222,9 @@ namespace WindowsFormsApplication1
             // 
             this.txtDataTrainning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDataTrainning.Location = new System.Drawing.Point(303, 6);
+            this.txtDataTrainning.Location = new System.Drawing.Point(317, 6);
             this.txtDataTrainning.Name = "txtDataTrainning";
-            this.txtDataTrainning.Size = new System.Drawing.Size(313, 20);
+            this.txtDataTrainning.Size = new System.Drawing.Size(381, 20);
             this.txtDataTrainning.TabIndex = 0;
             this.txtDataTrainning.Text = "DataTranning.csv";
             // 
@@ -225,9 +232,9 @@ namespace WindowsFormsApplication1
             // 
             this.txtDataTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDataTest.Location = new System.Drawing.Point(303, 28);
+            this.txtDataTest.Location = new System.Drawing.Point(317, 28);
             this.txtDataTest.Name = "txtDataTest";
-            this.txtDataTest.Size = new System.Drawing.Size(313, 20);
+            this.txtDataTest.Size = new System.Drawing.Size(381, 20);
             this.txtDataTest.TabIndex = 0;
             this.txtDataTest.Text = "DataTranning09.csv";
             this.txtDataTest.DoubleClick += new System.EventHandler(this.textBox4_DoubleClick);
@@ -235,20 +242,21 @@ namespace WindowsFormsApplication1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(236, 9);
+            this.label4.Location = new System.Drawing.Point(214, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 13);
+            this.label4.Size = new System.Drawing.Size(81, 13);
             this.label4.TabIndex = 1;
-            this.label4.Text = "File DL học";
+            this.label4.Text = "Tệp dữ liệu học";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(216, 31);
+            this.label5.Location = new System.Drawing.Point(214, 31);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(83, 13);
+            this.label5.Size = new System.Drawing.Size(100, 13);
             this.label5.TabIndex = 1;
-            this.label5.Text = "File DL kiểm thử";
+            this.label5.Text = "Tệp dữ liệu kiểm tra";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // tabControl1
             // 
@@ -264,11 +272,12 @@ namespace WindowsFormsApplication1
             this.tabControl1.Location = new System.Drawing.Point(212, 54);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(450, 408);
+            this.tabControl1.Size = new System.Drawing.Size(532, 408);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.progressBar1);
             this.tabPage1.Controls.Add(this.button4);
             this.tabPage1.Controls.Add(this._btnStop);
             this.tabPage1.Controls.Add(this._btnStartTraining);
@@ -277,10 +286,20 @@ namespace WindowsFormsApplication1
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(442, 382);
+            this.tabPage1.Size = new System.Drawing.Size(524, 382);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Học mạng";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(6, 0);
+            this.progressBar1.MarqueeAnimationSpeed = 10;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(512, 8);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar1.TabIndex = 9;
+            this.progressBar1.Visible = false;
             // 
             // button4
             // 
@@ -296,7 +315,7 @@ namespace WindowsFormsApplication1
             // _btnStop
             // 
             this._btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnStop.Location = new System.Drawing.Point(361, 353);
+            this._btnStop.Location = new System.Drawing.Point(443, 353);
             this._btnStop.Name = "_btnStop";
             this._btnStop.Size = new System.Drawing.Size(75, 23);
             this._btnStop.TabIndex = 6;
@@ -307,7 +326,7 @@ namespace WindowsFormsApplication1
             // _btnStartTraining
             // 
             this._btnStartTraining.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnStartTraining.Location = new System.Drawing.Point(280, 353);
+            this._btnStartTraining.Location = new System.Drawing.Point(362, 353);
             this._btnStartTraining.Name = "_btnStartTraining";
             this._btnStartTraining.Size = new System.Drawing.Size(75, 23);
             this._btnStartTraining.TabIndex = 5;
@@ -324,30 +343,28 @@ namespace WindowsFormsApplication1
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvTrainingResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._dgvTrainingResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Epoch,
-            this.Error});
+            this.Column2,
+            this.Column3});
             this._dgvTrainingResults.Location = new System.Drawing.Point(6, 6);
             this._dgvTrainingResults.Name = "_dgvTrainingResults";
             this._dgvTrainingResults.ReadOnly = true;
             this._dgvTrainingResults.RowHeadersWidth = 10;
-            this._dgvTrainingResults.Size = new System.Drawing.Size(430, 341);
+            this._dgvTrainingResults.Size = new System.Drawing.Size(512, 341);
             this._dgvTrainingResults.TabIndex = 4;
             // 
-            // Epoch
+            // Column2
             // 
-            this.Epoch.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Epoch.FillWeight = 101.5228F;
-            this.Epoch.HeaderText = "Số lần lặp";
-            this.Epoch.Name = "Epoch";
-            this.Epoch.ReadOnly = true;
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.HeaderText = "Số lần lặp";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             // 
-            // Error
+            // Column3
             // 
-            this.Error.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Error.FillWeight = 98.47717F;
-            this.Error.HeaderText = "Lỗi";
-            this.Error.Name = "Error";
-            this.Error.ReadOnly = true;
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column3.HeaderText = "Lỗi";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
             // 
             // _btnExport
             // 
@@ -358,7 +375,6 @@ namespace WindowsFormsApplication1
             this._btnExport.TabIndex = 7;
             this._btnExport.Text = "Lưu mạng";
             this._btnExport.UseVisualStyleBackColor = true;
-            this._btnExport.Visible = false;
             this._btnExport.Click += new System.EventHandler(this._btnExport_Click);
             // 
             // tabPage2
@@ -370,7 +386,7 @@ namespace WindowsFormsApplication1
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(442, 382);
+            this.tabPage2.Size = new System.Drawing.Size(524, 382);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Dự báo lún";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -378,19 +394,18 @@ namespace WindowsFormsApplication1
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(163, 353);
+            this.button3.Location = new System.Drawing.Point(6, 353);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 9;
             this.button3.Text = "Tải mạng";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // _btnSaveResults
             // 
             this._btnSaveResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnSaveResults.Location = new System.Drawing.Point(244, 353);
+            this._btnSaveResults.Location = new System.Drawing.Point(326, 353);
             this._btnSaveResults.Name = "_btnSaveResults";
             this._btnSaveResults.Size = new System.Drawing.Size(111, 23);
             this._btnSaveResults.TabIndex = 8;
@@ -401,7 +416,7 @@ namespace WindowsFormsApplication1
             // _btnPredict
             // 
             this._btnPredict.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnPredict.Location = new System.Drawing.Point(361, 353);
+            this._btnPredict.Location = new System.Drawing.Point(443, 353);
             this._btnPredict.Name = "_btnPredict";
             this._btnPredict.Size = new System.Drawing.Size(75, 23);
             this._btnPredict.TabIndex = 6;
@@ -426,7 +441,7 @@ namespace WindowsFormsApplication1
             this._dgvPredictionResults.Name = "_dgvPredictionResults";
             this._dgvPredictionResults.ReadOnly = true;
             this._dgvPredictionResults.RowHeadersWidth = 20;
-            this._dgvPredictionResults.Size = new System.Drawing.Size(430, 341);
+            this._dgvPredictionResults.Size = new System.Drawing.Size(512, 341);
             this._dgvPredictionResults.TabIndex = 5;
             // 
             // Column1
@@ -462,7 +477,7 @@ namespace WindowsFormsApplication1
             this.tabPage3.Controls.Add(this.DoThi_GiaiTri);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(442, 382);
+            this.tabPage3.Size = new System.Drawing.Size(524, 382);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Biểu đồ lún";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -480,35 +495,31 @@ namespace WindowsFormsApplication1
             this.DoThi_GiaiTri.ScrollMinX = 0D;
             this.DoThi_GiaiTri.ScrollMinY = 0D;
             this.DoThi_GiaiTri.ScrollMinY2 = 0D;
-            this.DoThi_GiaiTri.Size = new System.Drawing.Size(442, 382);
+            this.DoThi_GiaiTri.Size = new System.Drawing.Size(524, 382);
             this.DoThi_GiaiTri.TabIndex = 5;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.label17);
             this.tabPage4.Controls.Add(this.zedGraphControl1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(442, 382);
+            this.tabPage4.Size = new System.Drawing.Size(524, 382);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "BĐ Tương quan";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 8);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(164, 13);
-            this.label17.TabIndex = 1;
-            this.label17.Text = "Hệ số tương quan: 5.r345444678";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // zedGraphControl1
             // 
-            this.zedGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl1.Location = new System.Drawing.Point(0, 0);
-            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.zedGraphControl1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.zedGraphControl1.Enabled = false;
+            this.zedGraphControl1.IsEnableHPan = false;
+            this.zedGraphControl1.IsEnableHZoom = false;
+            this.zedGraphControl1.IsEnableVPan = false;
+            this.zedGraphControl1.IsEnableVZoom = false;
+            this.zedGraphControl1.IsEnableWheelZoom = false;
+            this.zedGraphControl1.IsPrintScaleAll = false;
+            this.zedGraphControl1.IsShowCursorValues = true;
+            this.zedGraphControl1.Location = new System.Drawing.Point(87, 16);
+            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(6);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -517,7 +528,7 @@ namespace WindowsFormsApplication1
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(442, 382);
+            this.zedGraphControl1.Size = new System.Drawing.Size(356, 357);
             this.zedGraphControl1.TabIndex = 6;
             // 
             // tabPage5
@@ -526,7 +537,7 @@ namespace WindowsFormsApplication1
             this.tabPage5.Controls.Add(this.groupBox2);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(442, 382);
+            this.tabPage5.Size = new System.Drawing.Size(524, 382);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Tổng hợp kết quả";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -710,19 +721,45 @@ namespace WindowsFormsApplication1
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "0.0002";
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.zedGraphControl2);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(524, 382);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Biểu đồ lỗi";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // zedGraphControl2
+            // 
+            this.zedGraphControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zedGraphControl2.Location = new System.Drawing.Point(0, 0);
+            this.zedGraphControl2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.zedGraphControl2.Name = "zedGraphControl2";
+            this.zedGraphControl2.ScrollGrace = 0D;
+            this.zedGraphControl2.ScrollMaxX = 0D;
+            this.zedGraphControl2.ScrollMaxY = 0D;
+            this.zedGraphControl2.ScrollMaxY2 = 0D;
+            this.zedGraphControl2.ScrollMinX = 0D;
+            this.zedGraphControl2.ScrollMinY = 0D;
+            this.zedGraphControl2.ScrollMinY2 = 0D;
+            this.zedGraphControl2.Size = new System.Drawing.Size(524, 382);
+            this.zedGraphControl2.TabIndex = 7;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 101);
+            this.label6.Location = new System.Drawing.Point(11, 101);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.Size = new System.Drawing.Size(78, 13);
             this.label6.TabIndex = 1;
-            this.label6.Text = "số neural lớp 1";
+            this.label6.Text = "Số neural lớp 1";
             // 
             // btnDocDL
             // 
             this.btnDocDL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDocDL.Location = new System.Drawing.Point(56, 483);
+            this.btnDocDL.Location = new System.Drawing.Point(138, 483);
             this.btnDocDL.Name = "btnDocDL";
             this.btnDocDL.Size = new System.Drawing.Size(75, 23);
             this.btnDocDL.TabIndex = 5;
@@ -745,11 +782,11 @@ namespace WindowsFormsApplication1
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 127);
+            this.label7.Location = new System.Drawing.Point(11, 127);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 13);
+            this.label7.Size = new System.Drawing.Size(78, 13);
             this.label7.TabIndex = 1;
-            this.label7.Text = "số neural lớp 2";
+            this.label7.Text = "Số neural lớp 2";
             // 
             // nudHiddenLayers3
             // 
@@ -766,11 +803,11 @@ namespace WindowsFormsApplication1
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(17, 153);
+            this.label8.Location = new System.Drawing.Point(11, 153);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(76, 13);
+            this.label8.Size = new System.Drawing.Size(78, 13);
             this.label8.TabIndex = 1;
-            this.label8.Text = "số neural lớp 3";
+            this.label8.Text = "Số neural lớp 3";
             // 
             // nudHiddenLayers4
             // 
@@ -787,11 +824,11 @@ namespace WindowsFormsApplication1
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 179);
+            this.label9.Location = new System.Drawing.Point(11, 179);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(76, 13);
+            this.label9.Size = new System.Drawing.Size(78, 13);
             this.label9.TabIndex = 1;
-            this.label9.Text = "số neural lớp 4";
+            this.label9.Text = "Số neural lớp 4";
             // 
             // nudHiddenLayers5
             // 
@@ -808,11 +845,11 @@ namespace WindowsFormsApplication1
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 205);
+            this.label10.Location = new System.Drawing.Point(11, 205);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(76, 13);
+            this.label10.Size = new System.Drawing.Size(78, 13);
             this.label10.TabIndex = 1;
-            this.label10.Text = "số neural lớp 5";
+            this.label10.Text = "Số neural lớp 5";
             // 
             // nudHiddenLayers6
             // 
@@ -829,11 +866,11 @@ namespace WindowsFormsApplication1
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(17, 231);
+            this.label11.Location = new System.Drawing.Point(11, 231);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(76, 13);
+            this.label11.Size = new System.Drawing.Size(78, 13);
             this.label11.TabIndex = 1;
-            this.label11.Text = "số neural lớp 6";
+            this.label11.Text = "Số neural lớp 6";
             // 
             // nudHiddenLayers7
             // 
@@ -850,11 +887,11 @@ namespace WindowsFormsApplication1
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(17, 257);
+            this.label12.Location = new System.Drawing.Point(11, 257);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(76, 13);
+            this.label12.Size = new System.Drawing.Size(78, 13);
             this.label12.TabIndex = 1;
-            this.label12.Text = "số neural lớp 7";
+            this.label12.Text = "Số neural lớp 7";
             // 
             // nudHiddenLayers8
             // 
@@ -871,11 +908,11 @@ namespace WindowsFormsApplication1
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(17, 283);
+            this.label13.Location = new System.Drawing.Point(11, 283);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(76, 13);
+            this.label13.Size = new System.Drawing.Size(78, 13);
             this.label13.TabIndex = 1;
-            this.label13.Text = "số neural lớp 8";
+            this.label13.Text = "Số neural lớp 8";
             // 
             // txtInputCount
             // 
@@ -897,7 +934,7 @@ namespace WindowsFormsApplication1
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(39, 10);
+            this.label14.Location = new System.Drawing.Point(23, 10);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(66, 13);
             this.label14.TabIndex = 1;
@@ -906,7 +943,7 @@ namespace WindowsFormsApplication1
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(48, 35);
+            this.label15.Location = new System.Drawing.Point(23, 35);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(57, 13);
             this.label15.TabIndex = 1;
@@ -945,7 +982,7 @@ namespace WindowsFormsApplication1
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(622, 5);
+            this.button1.Location = new System.Drawing.Point(704, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(36, 23);
             this.button1.TabIndex = 17;
@@ -956,7 +993,7 @@ namespace WindowsFormsApplication1
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(622, 28);
+            this.button2.Location = new System.Drawing.Point(704, 28);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(36, 23);
             this.button2.TabIndex = 17;
@@ -964,37 +1001,68 @@ namespace WindowsFormsApplication1
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.textBox4_DoubleClick);
             // 
-            // tabPage6
+            // backgroundWorker1
             // 
-            this.tabPage6.Controls.Add(this.zedGraphControl2);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(442, 382);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Biểu đồ lỗi";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
-            // zedGraphControl2
+            // label16
             // 
-            this.zedGraphControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl2.Location = new System.Drawing.Point(0, 0);
-            this.zedGraphControl2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.zedGraphControl2.Name = "zedGraphControl2";
-            this.zedGraphControl2.ScrollGrace = 0D;
-            this.zedGraphControl2.ScrollMaxX = 0D;
-            this.zedGraphControl2.ScrollMaxY = 0D;
-            this.zedGraphControl2.ScrollMaxY2 = 0D;
-            this.zedGraphControl2.ScrollMinX = 0D;
-            this.zedGraphControl2.ScrollMinY = 0D;
-            this.zedGraphControl2.ScrollMinY2 = 0D;
-            this.zedGraphControl2.Size = new System.Drawing.Size(442, 382);
-            this.zedGraphControl2.TabIndex = 7;
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(11, 16);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(73, 13);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Số lần đã lặp ";
+            // 
+            // lblsolanlap
+            // 
+            this.lblsolanlap.AutoSize = true;
+            this.lblsolanlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblsolanlap.Location = new System.Drawing.Point(96, 16);
+            this.lblsolanlap.Name = "lblsolanlap";
+            this.lblsolanlap.Size = new System.Drawing.Size(73, 13);
+            this.lblsolanlap.TabIndex = 0;
+            this.lblsolanlap.Text = "Số lần đã lặp:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(11, 40);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(54, 13);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Lỗi đạt tới";
+            // 
+            // lblloidattoi
+            // 
+            this.lblloidattoi.AutoSize = true;
+            this.lblloidattoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblloidattoi.Location = new System.Drawing.Point(96, 40);
+            this.lblloidattoi.Name = "lblloidattoi";
+            this.lblloidattoi.Size = new System.Drawing.Size(73, 13);
+            this.lblloidattoi.TabIndex = 0;
+            this.lblloidattoi.Text = "Số lần đã lặp:";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.lblloidattoi);
+            this.groupBox4.Controls.Add(this.lblsolanlap);
+            this.groupBox4.Controls.Add(this.label19);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Location = new System.Drawing.Point(12, 362);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(194, 62);
+            this.groupBox4.TabIndex = 18;
+            this.groupBox4.TabStop = false;
             // 
             // frmPrediction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(679, 484);
+            this.ClientSize = new System.Drawing.Size(761, 484);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
@@ -1021,12 +1089,12 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this._dgvPredictionResults)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers4)).EndInit();
@@ -1036,7 +1104,8 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this.nudHiddenLayers8)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage6.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1102,7 +1171,6 @@ namespace WindowsFormsApplication1
         private Button button2;
         private Button button3;
         private Button button4;
-        private Label label17;
         private TabPage tabPage5;
         private Label label26;
         private Label label24;
@@ -1126,10 +1194,17 @@ namespace WindowsFormsApplication1
         private DataGridViewTextBoxColumn Actual;
         private DataGridViewTextBoxColumn Predicted;
         private DataGridViewTextBoxColumn ErrorDifference;
-        private DataGridViewTextBoxColumn Epoch;
-        private DataGridViewTextBoxColumn Error;
         private TabPage tabPage6;
         private ZedGraph.ZedGraphControl zedGraphControl2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private ProgressBar progressBar1;
+        private Label lblloidattoi;
+        private Label label19;
+        private Label lblsolanlap;
+        private Label label16;
+        private GroupBox groupBox4;
     }
 }
 

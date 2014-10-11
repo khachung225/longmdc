@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ANNPrediction.Entities
 {
+    [Serializable]
     public class PredicData
     {
         private readonly List<double> _listData = new List<double>(); 

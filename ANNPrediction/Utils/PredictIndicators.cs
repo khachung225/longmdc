@@ -18,8 +18,9 @@ using Encog.Neural.Networks.Training.Propagation.Resilient;
 
 namespace ANNPrediction.Utils
 {
+    [Serializable]
     public delegate void TrainingStatus(int iteration, double error);
-
+     [Serializable]
     public class PredictIndicators : IDisposable
     {
         #region Private Members
@@ -27,26 +28,29 @@ namespace ANNPrediction.Utils
         /// <summary>
         /// Network to be trained
         /// </summary>
-        private BasicNetwork _network;
+        public BasicNetwork _network;
 
         /// <summary>
         /// Input data S&P, Prime Interest Rate, Nasdaq, Dow indexes
         /// </summary>
+       [NonSerializedAttribute]
         private double[][] _input;
 
         /// <summary>
         /// Desired output
         /// </summary>
-        private double[][] _ideal;
+        [NonSerializedAttribute]
+         private double[][] _ideal;
 
         /// <summary>
         /// Financial market predictor
         /// </summary>
-        private PredictorManager _manager;
+        public PredictorManager _manager;
 
         /// <summary>
         /// Training tread
         /// </summary>
+         [NonSerializedAttribute]
         private Thread _trainThread;
 
 
@@ -55,7 +59,7 @@ namespace ANNPrediction.Utils
         /// </summary>
         private int _trainingSize = 0;
 
-
+          [NonSerializedAttribute]
         private List<MyError> listErr = new List<MyError>();
 
         #endregion
@@ -63,8 +67,12 @@ namespace ANNPrediction.Utils
         private const int OUTPUT_SIZE = 1; // dau ra
         public int InputCount { get; set; }
 
-        private double _maxErrorTrainning;
-        private double _maxEpochTrainning;
+        public List<int> NeuralHidden { get; set; }
+        public int HiddenLayers { get; set; }
+
+
+        public double MaxErrorTrainning { get; set; }
+        public double MaxEpochTrainning { get; set; }
 
         /// <summary>
         /// Gets the information about the predictor
@@ -77,8 +85,12 @@ namespace ANNPrediction.Utils
             if (!File.Exists(fileData))
                 throw new ArgumentException(" targets an invalid file:" + fileData);
 
-            _maxErrorTrainning = maxError;
-            _maxEpochTrainning = maxepoch;
+            MaxErrorTrainning = maxError;
+            MaxEpochTrainning = maxepoch;
+
+            NeuralHidden = neuralHidden;
+           
+            HiddenLayers = hiddenLayers;
 
             /*Create new network*/
             _manager = new PredictorManager(OUTPUT_SIZE); /*Create new financial predictor manager*/
@@ -119,7 +131,7 @@ namespace ANNPrediction.Utils
             Action<TrainingStatus> action = TrainNetwork;
             action.BeginInvoke(status, action.EndInvoke, action);
         }
-
+        
         public List<MyError> ListError { get { return listErr; } }
         public bool IsTrainning()
         {
@@ -165,13 +177,14 @@ namespace ANNPrediction.Utils
                     // if (LeanOverFitting.IsOverfilling(error))
                     //     AbortTraining();
                     listErr.Add(new MyError {index = epoch, value = error});
-                     
-                    if (epoch > _maxEpochTrainning){
+
+                    if (MaxEpochTrainning >0 && epoch >= MaxEpochTrainning)
+                    {
                          
                         break;
                     }
                     epoch++;
-                } while (error > _maxErrorTrainning);
+                } while (error >= MaxErrorTrainning);
             }
             catch (Exception ex)
             {
@@ -184,6 +197,9 @@ namespace ANNPrediction.Utils
                 if (train != null) train.FinishTraining();
 
                 //todo:ve do thi loi
+               // MessageBox.Show("dung hoc!", "");
+                if (status != null)
+                    status.Invoke(-1, 0);
             }
             if (_trainThread != null) _trainThread.Abort();
             _trainThread = null;
@@ -243,6 +259,11 @@ namespace ANNPrediction.Utils
         {
             if (_trainThread != null) _trainThread.Abort();
              
+        }
+
+        public void LoadDataTest(string urlFile)
+        {
+            _manager.LoadDataTest(urlFile);
         }
 
         /// <summary>
@@ -310,15 +331,15 @@ namespace ANNPrediction.Utils
         }
         public void Dispose()
         {
-            if (listErr.Count > 0)
+            if (listErr !=null && listErr.Count > 0)
             {
                 listErr.Clear();
                 listErr = null;
             }
-            if (_manager != null)
+            if (_manager != null && _manager != null)
                 _manager.Dispose();
 
-            if (_network != null)
+            if (_network != null && _network != null)
                 _network = null;
         }
     }
