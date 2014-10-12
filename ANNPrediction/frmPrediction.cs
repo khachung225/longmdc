@@ -49,6 +49,17 @@ namespace WindowsFormsApplication1
 
             lblloidattoi.Text = "";
             lblsolanlap.Text = "";
+
+           //LoadDefault();
+        }
+
+        private void LoadDefault()
+        {
+            button4.Enabled = false;
+            _btnExport.Enabled = false;
+            _btnStartTraining.Enabled = false;
+            _btnStop.Enabled = false;
+            _btnPredict.Enabled = false;
         }
 
         private int GetIntValue(decimal value)
@@ -131,6 +142,11 @@ namespace WindowsFormsApplication1
 
         private void _btnPredict_Click(object sender, EventArgs e)
         {
+            if (_predictor == null)
+            {
+                MessageBox.Show("Mạng chưa được khởi tạo! \n\r Hãy bắt đầu quá trình học hoặc nhấn nút tải mạng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 _dgvPredictionResults.Rows.Clear();
@@ -254,9 +270,9 @@ namespace WindowsFormsApplication1
         {
             GraphPane myPane1 = DoThi.GraphPane; // Khai báo sửa dụng Graph loại GraphPane;
 
-            myPane1.Title.Text = "Đồ thị tương quan";
+            myPane1.Title.Text = "BIỂU ĐỒ TƯƠNG QUAN";
             myPane1.XAxis.Title.Text = "Giá trị thực";
-            myPane1.YAxis.Title.Text = "Giá trị dự đoán";
+            myPane1.YAxis.Title.Text = "Giá trị dự báo";
             // Định nghĩa list để vẽ đồ thị. Để các bạn hiểu rõ cơ chế làm việc ở đây khai báo 2 list điểm <=> 2 đường đồ thị
             //PointPairList list6_1 = new PointPairList();
             var list6_2 = new RollingPointPairList(1000);
@@ -264,7 +280,7 @@ namespace WindowsFormsApplication1
 
             // dòng dưới là định nghĩa curve để vẽ.
             LineItem myCurve = myPane1.AddCurve("Tương quan", list6_2, Color.Blue, SymbolType.Circle);
-            myCurve.Symbol.Size = 10;
+            myCurve.Symbol.Size = 12;
             // Set up a red-blue color gradient to be used for the fill 
             myCurve.Symbol.Fill = new Fill(Color.Blue, Color.Blue);
             // Turn off the symbol borders 
@@ -417,7 +433,7 @@ namespace WindowsFormsApplication1
             DoThi.GraphPane.XAxis.Scale.Max = DoThi.GraphPane.YAxis.Scale.Max = imax+0.5;
             //draw.
             var a = Math.Min(DoThi.GraphPane.Rect.Width, DoThi.GraphPane.Rect.Height);
-            DoThi.GraphPane.Rect = new RectangleF(DoThi.GraphPane.Rect.X, DoThi.GraphPane.Rect.Y, a-20 , a);
+            DoThi.GraphPane.Rect = new RectangleF(DoThi.GraphPane.Rect.X, DoThi.GraphPane.Rect.Y, a , a);
             
 
             DoThi.Invalidate();
@@ -537,6 +553,17 @@ namespace WindowsFormsApplication1
             CleanGrapth(zedGraphControl2);
             lblloidattoi.Text = "";
             lblsolanlap.Text = "";
+
+            //reset tong hop.
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
+
+            textBox9.Text = "";
+            textBox10.Text = "";
+            textBox11.Text = "";
         }
 
         private void tabPage5_Click(object sender, EventArgs e)
@@ -657,6 +684,8 @@ namespace WindowsFormsApplication1
                         {
                             lblloidattoi.Text = error.ToString("F12", CultureInfo.InvariantCulture);
                             lblsolanlap.Text = epoch.ToString(CultureInfo.InvariantCulture);
+                            if (_maxepoch >= epoch)
+                                progressBar1.Value = epoch;
                         }));
 
                 }
@@ -664,11 +693,13 @@ namespace WindowsFormsApplication1
                 {
                     lblloidattoi.Text = error.ToString("F12",CultureInfo.InvariantCulture);
                     lblsolanlap.Text = epoch.ToString(CultureInfo.InvariantCulture);
+                    if (_maxepoch >= epoch)
+                        progressBar1.Value = epoch;
                 }
             }
         }
 
-
+        private int _maxepoch = 0;
         private void LoadDataFile(string urlFile, string urlTestFile)
         {
             int inputCount = 0;
@@ -716,7 +747,8 @@ namespace WindowsFormsApplication1
                     maxepoch = -1;
                 else
                     maxepoch = Int32.Parse(txtMaxRepeat.Text, CultureInfo.InvariantCulture);
-               
+
+                _maxepoch = maxepoch;
             }
             catch (Exception exx)
             {
@@ -735,38 +767,51 @@ namespace WindowsFormsApplication1
 
         private void _btnStartTraining_Click(object sender, EventArgs e)
         {
-            _btnStartTraining.Enabled = false;
-            _btnExport.Enabled = false;
-            button4.Enabled = false;
-            _btnSaveResults.Enabled = false;
-            _btnPredict.Enabled = false;
-            button3.Enabled = false;
-
-
-            progressBar1.Visible = true;
-            try
+           try
             {
 
                 //if (!backgroundWorker1.IsBusy)
                 //    backgroundWorker1.RunWorkerAsync();
-                
-
-                groupBox1.Enabled = false;
-                txtInputCount.Enabled = false;
-                txtDataTrainning.Enabled = false;
-
-
-                button1.Enabled = false;
+      
                 LoadDataFile(txtDataTrainning.Text, txtDataTest.Text);
                 //cap nha lai so dau vao
                 txtInputCount.Text = _predictor.InputCount.ToString(CultureInfo.InvariantCulture);
+
+                #region enable button.
+                groupBox1.Enabled = false;
+                txtInputCount.Enabled = false;
+                txtDataTrainning.Enabled = false;
+                button1.Enabled = false;
+
+                progressBar1.Visible = true;
+                _btnStartTraining.Enabled = false;
+                _btnExport.Enabled = false;
+                button4.Enabled = false;
+                _btnSaveResults.Enabled = false;
+                _btnPredict.Enabled = false;
+                button3.Enabled = false; 
+                #endregion
+
+                #region progress
+                if (_maxepoch >= 0)
+                {
+                    progressBar1.Value = 0;
+                    progressBar1.Maximum = _maxepoch;
+                    progressBar1.Minimum = 0;
+                    progressBar1.Style = ProgressBarStyle.Continuous;
+                }
+                else
+                {
+                    progressBar1.Style = ProgressBarStyle.Marquee;
+                }
+                #endregion
 
                 TrainingStatus callback = TrainingCallback;
                 _predictor.TrainNetworkAsync(callback);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -792,6 +837,12 @@ namespace WindowsFormsApplication1
         //export mang
         private void _btnExport_Click(object sender, EventArgs e)
         {
+            
+            if (_predictor == null)
+            {
+                MessageBox.Show("Không tìm thấy thông tin mạng để thực hiện lưu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             _btnExport.Enabled = false;
             try
             {
@@ -1003,10 +1054,20 @@ namespace WindowsFormsApplication1
             } while (true);
         } 
         #endregion
-
-        private void label5_Click(object sender, EventArgs e)
+        
+        private void zedGraphControl1_SizeChanged(object sender, EventArgs e)
         {
+            int minx = Math.Min(tabPage4.Width, tabPage4.Height);
+            zedGraphControl1.Width = zedGraphControl1.Height = minx-4;
 
+
+            //draw.
+            var a = Math.Min(zedGraphControl1.GraphPane.Rect.Width, zedGraphControl1.GraphPane.Rect.Height);
+            zedGraphControl1.GraphPane.Rect = new RectangleF(zedGraphControl1.GraphPane.Rect.X, zedGraphControl1.GraphPane.Rect.Y, minx - 4, minx - 4);
+
+            zedGraphControl1.Invalidate();
+            // Vẽ đồ thị
+            zedGraphControl1.AxisChange();
         }
     }
 

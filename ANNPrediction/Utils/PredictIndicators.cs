@@ -83,7 +83,7 @@ namespace ANNPrediction.Utils
                                  double maxError, int maxepoch)
         {
             if (!File.Exists(fileData))
-                throw new ArgumentException(" targets an invalid file:" + fileData);
+                throw new ArgumentException("Không tìm thấy tệp dữ liệu có tên: '" + fileData+"'");
 
             MaxErrorTrainning = maxError;
             MaxEpochTrainning = maxepoch;

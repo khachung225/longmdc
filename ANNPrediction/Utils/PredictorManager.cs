@@ -113,7 +113,7 @@ namespace ANNPrediction.Utils
         {
             if (!DirectionIO.IsExistFile(fileData))
                 throw new NullReferenceException(
-                                    string.Format("Không tìm thấy file '{0}' ", fileData));
+                                    string.Format("Không tìm thấy tệp dữ liệu kiểm tra có tên: '{0}'", fileData));
             _dictionaryTest = new Dictionary<int, PredicData>();
             int diccount = 0;
             int dataSize = 0;
