@@ -253,7 +253,6 @@ namespace WindowsFormsApplication1
             this.txtDataTest.Name = "txtDataTest";
             this.txtDataTest.Size = new System.Drawing.Size(495, 23);
             this.txtDataTest.TabIndex = 0;
-            this.txtDataTest.DoubleClick += new System.EventHandler(this.textBox4_DoubleClick);
             // 
             // label4
             // 

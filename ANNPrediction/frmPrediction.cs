@@ -303,10 +303,10 @@ namespace WindowsFormsApplication1
 
             
             //myPane1.XAxis.Scale.Max = 10000;
-            myPane1.XAxis.Scale.MinorStep = 1;
-            myPane1.XAxis.Scale.MajorStep = 1;
-            myPane1.YAxis.Scale.MinorStep = 1;
-            myPane1.YAxis.Scale.MajorStep = 1;
+            //myPane1.XAxis.Scale.MinorStep = 1;
+            //myPane1.XAxis.Scale.MajorStep = 1;
+            //myPane1.YAxis.Scale.MinorStep = 1;
+            //myPane1.YAxis.Scale.MajorStep = 1;
             
 
             // Fill the background of the chart rect and pane
@@ -420,17 +420,27 @@ namespace WindowsFormsApplication1
             double imax = 0;
             foreach (PredictionResults item in results)
             {
-                list21.Add(item.ActualValue/1000, item.PredictedValue/1000);
-                var m = Math.Max(item.ActualValue/1000, item.PredictedValue/1000);
+                list21.Add(item.ActualValue, item.PredictedValue);
+                var m = Math.Max(item.ActualValue, item.PredictedValue);
                 if (imax < m)
                     imax = m;
                 // đoạn chương trình thực hiện vẽ đồ thị
                 Scale xScale = DoThi.GraphPane.XAxis.Scale;
                 i++;
             }
-            imax = Math.Round(imax, 1, MidpointRounding.AwayFromZero);
+           // imax = Math.Round(imax, 1, MidpointRounding.AwayFromZero);
             var a1 = Math.Max(DoThi.GraphPane.XAxis.Scale.Max, DoThi.GraphPane.YAxis.Scale.Max);
             DoThi.GraphPane.XAxis.Scale.Max = DoThi.GraphPane.YAxis.Scale.Max = imax+0.5;
+            double myrate;
+            imax = GetRoundMax(imax, out myrate);
+
+            DoThi.GraphPane.XAxis.Scale.Max = DoThi.GraphPane.YAxis.Scale.Max = imax;
+
+            DoThi.GraphPane.XAxis.Scale.MinorStep = myrate;
+            DoThi.GraphPane.XAxis.Scale.MajorStep = myrate;
+            DoThi.GraphPane.YAxis.Scale.MinorStep = myrate;
+            DoThi.GraphPane.YAxis.Scale.MajorStep = myrate;
+
             //draw.
             var a = Math.Min(DoThi.GraphPane.Rect.Width, DoThi.GraphPane.Rect.Height);
             DoThi.GraphPane.Rect = new RectangleF(DoThi.GraphPane.Rect.X, DoThi.GraphPane.Rect.Y, a , a);
@@ -444,6 +454,62 @@ namespace WindowsFormsApplication1
 
 
 
+        }
+
+        private double RoutTo(double imax)
+        {
+            if (imax > 1)
+            {
+                var value = Math.Round(imax, 0, MidpointRounding.ToEven);
+                var lent = value.ToString(CultureInfo.InvariantCulture).Length;
+
+                for (int i = 0; i < lent - 1; i++)
+                {
+                    value = value*0.1;
+                }
+
+                var newvalue = Math.Round(value, 0, MidpointRounding.ToEven);
+                for (int i = 0; i < lent - 1; i++)
+                {
+                    newvalue = newvalue * 10;
+                }
+                return newvalue;
+            }
+           
+            return imax;
+        }
+        private double GetRoundMax(double imax,out double myrate)
+        {
+            myrate = 0.1;
+            if (imax >= 1)
+            {
+                
+                myrate = Math.Round(imax, 0, MidpointRounding.ToEven) * 0.1;
+
+                myrate = Math.Round(imax + myrate, 0, MidpointRounding.AwayFromZero) * 0.1;
+                myrate = RoutTo(myrate);
+                //round lan 2
+                return myrate * 10;
+            }
+            else
+            {
+                var dental = imax;
+                double anpha = 0.3;
+                myrate = 0.1;
+                while (dental < 1)
+                {
+                    dental = dental*10;
+                    anpha = anpha*0.1;
+                    myrate = myrate*0.1;
+                }
+               
+                var plusplus = Math.Round(dental, 0, MidpointRounding.ToEven) * 0.1;
+
+                var ia = (dental + plusplus);
+                myrate = Math.Round(ia, 0, MidpointRounding.ToEven) * myrate;
+
+                return myrate*10 ;
+            }
         }
 
         private void CleanGrapth(ZedGraphControl DoThi)
