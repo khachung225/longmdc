@@ -168,6 +168,7 @@ namespace ANNPrediction.Utils
 
         private void LoadCSVDataTest(string fileData)
         {
+            if(string.IsNullOrEmpty(fileData)) return;
             if (!DirectionIO.IsExistFile(fileData))
                 throw new NullReferenceException(
                                     string.Format("Không tìm thấy file '{0}' ", fileData));

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Forms;
@@ -139,7 +140,7 @@ namespace WindowsFormsApplication1
                 }
             }
         }
-
+        //du bao.
         private void _btnPredict_Click(object sender, EventArgs e)
         {
             if (_predictor == null)
@@ -345,8 +346,8 @@ namespace WindowsFormsApplication1
             int i = 0;
             foreach (PredictionResults item in results)
             {
-                list21.Add(i, item.ActualValue*(-1));
-                list22.Add(i, item.PredictedValue*(-1));
+                list21.Add(item.Distance, item.ActualValue * (-1));
+                list22.Add(item.Distance, item.PredictedValue * (-1));
                 // đoạn chương trình thực hiện vẽ đồ thị
                 Scale xScale = DoThi.GraphPane.XAxis.Scale;
                 i++;
@@ -418,23 +419,40 @@ namespace WindowsFormsApplication1
             // list22.Clear();
             int i = 0;
             double imax = 0;
+            double imin = 0;
+            #region them doan tinh giá trị duong cho bieu do tuong quan.
+
+            var isnegativeValue = 0;
             foreach (PredictionResults item in results)
             {
-                list21.Add(item.ActualValue, item.PredictedValue);
-                var m = Math.Max(item.ActualValue, item.PredictedValue);
+                if (item.ActualValue > 0)
+                    isnegativeValue = isnegativeValue | 1;
+                if (item.ActualValue < 0)
+                    isnegativeValue = isnegativeValue | 2;
+            }
+            var nhanvoi = 1;
+            if (isnegativeValue == 2)
+                nhanvoi = -1; 
+            #endregion
+            
+            foreach (PredictionResults item in results)
+            {
+                list21.Add(item.ActualValue * nhanvoi, item.PredictedValue * nhanvoi);
+                var m = Math.Max(item.ActualValue * nhanvoi, item.PredictedValue * nhanvoi);
                 if (imax < m)
                     imax = m;
-                // đoạn chương trình thực hiện vẽ đồ thị
-                Scale xScale = DoThi.GraphPane.XAxis.Scale;
                 i++;
             }
            // imax = Math.Round(imax, 1, MidpointRounding.AwayFromZero);
+
             var a1 = Math.Max(DoThi.GraphPane.XAxis.Scale.Max, DoThi.GraphPane.YAxis.Scale.Max);
             DoThi.GraphPane.XAxis.Scale.Max = DoThi.GraphPane.YAxis.Scale.Max = imax+0.5;
             double myrate;
             imax = GetRoundMax(imax, out myrate);
+            //imin = GetRoundMax(imin*-1, out myrate);
 
             DoThi.GraphPane.XAxis.Scale.Max = DoThi.GraphPane.YAxis.Scale.Max = imax;
+           // DoThi.GraphPane.XAxis.Scale.Min = DoThi.GraphPane.YAxis.Scale.Min = imin*-1;
 
             DoThi.GraphPane.XAxis.Scale.MinorStep = myrate;
             DoThi.GraphPane.XAxis.Scale.MajorStep = myrate;
@@ -455,7 +473,7 @@ namespace WindowsFormsApplication1
 
 
         }
-
+        
         private double RoutTo(double imax)
         {
             if (imax > 1)
@@ -468,7 +486,8 @@ namespace WindowsFormsApplication1
                     value = value*0.1;
                 }
 
-                var newvalue = Math.Round(value, 0, MidpointRounding.ToEven);
+                var newvalue = Math.Round(value, 1, MidpointRounding.AwayFromZero);
+                //newvalue = LamTronlen(newvalue);
                 for (int i = 0; i < lent - 1; i++)
                 {
                     newvalue = newvalue * 10;
@@ -491,12 +510,13 @@ namespace WindowsFormsApplication1
                 //round lan 2
                 return myrate * 10;
             }
-            else
+            else if (imax >0)
             {
                 var dental = imax;
                 double anpha = 0.3;
                 myrate = 0.1;
-                while (dental < 1)
+
+                while (dental < 1 )
                 {
                     dental = dental*10;
                     anpha = anpha*0.1;
@@ -510,6 +530,16 @@ namespace WindowsFormsApplication1
 
                 return myrate*10 ;
             }
+            else if (imax < 0)
+            {
+                myrate = Math.Round(imax, 0, MidpointRounding.ToEven) * 0.1;
+
+                myrate = Math.Round(imax + myrate, 0, MidpointRounding.AwayFromZero) * 0.1;
+                myrate = RoutTo(myrate);
+                //round lan 2
+                return myrate * 10;
+            }
+            return 0;
         }
 
         private void CleanGrapth(ZedGraphControl DoThi)

@@ -27,7 +27,7 @@ namespace ANNPrediction.Entities
         {
             foreach (var predictionResultse in p)
             {
-                Add(Math.Abs(predictionResultse.Error));
+                Add(predictionResultse.Error);
             }
         }
         public void Clean()

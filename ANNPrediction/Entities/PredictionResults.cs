@@ -22,7 +22,9 @@ namespace ANNPrediction.Entities
         /// Predicted percentage move
         /// </summary>
         public double PredictedValue {get; set; }
-        
+
+        public double Distance { get; set; }
+
         /// <summary>
         /// Error between predicted and actual values
         /// </summary>

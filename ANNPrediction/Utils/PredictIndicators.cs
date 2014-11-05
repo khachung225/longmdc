@@ -284,6 +284,7 @@ namespace ANNPrediction.Utils
                 {
                     present[i] = sample.GetData(i);
                 }
+                var dist = present[1];
                 actualOutput[0] = sample.GetData(_manager.InputSize);
 
                 var data = new BasicNeuralData(present);
@@ -294,6 +295,9 @@ namespace ANNPrediction.Utils
                 result.PredictedValue = predict[0]*
                                         (_manager.GetMax(_manager.InputSize) - _manager.GetMin(_manager.InputSize)) +
                                         _manager.GetMin(_manager.InputSize);
+                result.Distance = dist *
+                                        (_manager.GetMax(1) - _manager.GetMin(1)) +
+                                        _manager.GetMin(1);
 
 
                 result.Error = result.PredictedValue - result.ActualValue; //

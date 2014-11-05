@@ -534,7 +534,6 @@ namespace WindowsFormsApplication1
             this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl1.Enabled = false;
             this.zedGraphControl1.IsEnableHPan = false;
             this.zedGraphControl1.IsEnableHZoom = false;
             this.zedGraphControl1.IsEnableVPan = false;
